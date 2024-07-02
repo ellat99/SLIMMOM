@@ -1,6 +1,5 @@
+import { createSlice } from '@reduxjs/toolkit';
 import { login, logout, refresh, register } from './operations';
-
-const { createSlice } = require('@reduxjs/toolkit');
 
 const handleRejected = (state, action) => {
   state.isAuthLoading = false;

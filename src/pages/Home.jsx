@@ -1,8 +1,4 @@
-import {
-  ThemeProvider,
-  createTheme,
-  } from '@mui/material';
-
+import { ThemeProvider, createTheme } from '@mui/material';
 // import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { Hero } from 'components/Hero/Hero';
@@ -12,16 +8,15 @@ const theme = createTheme({
   typography: {
     button: {
       fontFamily: 'Verdana',
-       
     },
-    fontSize: '34px',
+    fontSize: 34, // Modifică aici la un număr
   },
   palette: {
     ochre: {
       main: 'rgb(252, 132, 45)',
       contrastText: 'white',
     },
-  }
+  },
 });
 
 const Home = () => {
@@ -43,4 +38,3 @@ const Home = () => {
 };
 
 export default Home;
-

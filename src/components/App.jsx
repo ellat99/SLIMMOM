@@ -7,7 +7,7 @@ import { Route, Routes } from 'react-router-dom';
 
 import Layout from 'components/Layout/Layout';
 import { useAuth } from 'hooks';
-import { refresh } from 'redux/auth/operations';
+import { refresh } from '../redux/auth/operations';
 import { Loader } from './Loader/Loader';
 import PublicRoute from './PublicRoute';
 import PrivateRoute from './PrivateRoute';
