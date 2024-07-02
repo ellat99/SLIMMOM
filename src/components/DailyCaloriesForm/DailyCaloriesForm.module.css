@@ -1,0 +1,41 @@
+.formWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 608px;
+  height: 343px;
+}
+
+.title {
+  font-family: 'Verdana';
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: normal;
+  margin: 0;
+  margin-bottom: 32px;
+}
+
+.form {
+  display: flex;
+}
+
+@media (min-width: 320px) {
+  .title {
+    margin: 0 auto;
+    max-width: 360px;
+  }
+}
+
+@media (min-width: 768px) {
+  .title {
+    margin: 0;
+    width: 608px;
+    height: 85px;
+    font-size: 34px;
+    margin-bottom: 65px;
+  }
+}
+
+@media (min-width: 1280px) {
+
+}

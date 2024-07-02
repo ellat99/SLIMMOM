@@ -1,0 +1,12 @@
+.closeBtn {
+    width: 20px;
+    height: 20px;
+    display: flex;
+   align-self: flex-end;
+   cursor: pointer;
+}
+
+.buttonLink {
+    text-decoration: none;
+    color: #fff;
+}

@@ -1,0 +1,44 @@
+.diary,
+.calculator {
+  text-decoration: none;
+  transition: transform var(--transition);
+  font-family: verdana;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 4%;
+  line-height: 17.01px;
+  color: rgba(155, 159, 170, 1);
+  &:hover,
+  &:focus {
+    transform: scale(1.2);
+    color: rgba(33, 33, 33, 1);
+  }
+}
+
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.linkWrapper {
+  display: flex;
+  gap: 20px;
+  border-left: 3px solid rgba(224, 224, 224, 1);
+  padding-left: 10px;
+  margin-top: 125px;
+}
+  
+.logo {
+  height: 44px;
+ }
+
+  @media (min-width: 426px) and (min-width: 1024px) {
+    .logo {
+       width: 167px;
+      height: 66px;
+    margin-right: 22px;
+    margin-top: 80px;
+    }
+  }
