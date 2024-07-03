@@ -9,7 +9,7 @@ const Register = () => {
   return (
     <>
       <Helmet>
-        <title>Registration</title>
+        <title>SlimMom</title>
       </Helmet>
       <Hero />
       <RegisterForm />

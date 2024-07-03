@@ -9,7 +9,7 @@ const Login = () => {
   return (
     <>
       <Helmet>
-        <title>Login</title>
+        <title>SlimMom</title>
       </Helmet>
       <Hero />
       <LoginForm />

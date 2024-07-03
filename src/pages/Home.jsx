@@ -29,7 +29,7 @@ const Home = () => {
   return (
     <ThemeProvider theme={theme}>
       <Helmet>
-        <title>Home</title>
+        <title>SlimMom</title>
       </Helmet>
       <Hero />
       <DailyCaloriesForm />
