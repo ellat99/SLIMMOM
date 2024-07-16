@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/SLIMMOM/static/css/main.cc4431b1.css",
-    "main.js": "/SLIMMOM/static/js/main.5e3d6cfd.js",
+    "main.js": "/SLIMMOM/static/js/main.406149b6.js",
     "static/css/992.37651a13.chunk.css": "/SLIMMOM/static/css/992.37651a13.chunk.css",
     "static/js/992.38e3b1ee.chunk.js": "/SLIMMOM/static/js/992.38e3b1ee.chunk.js",
     "static/js/534.1eee94f8.chunk.js": "/SLIMMOM/static/js/534.1eee94f8.chunk.js",
@@ -16,7 +16,6 @@
     "static/js/636.25019171.chunk.js": "/SLIMMOM/static/js/636.25019171.chunk.js",
     "static/media/watermelon.png": "/SLIMMOM/static/media/watermelon.8221caf29c22ad7a13ad.png",
     "static/media/desktopMainBg.png": "/SLIMMOM/static/media/desktopMainBg.7d6024134020ef14c78a.png",
-    "static/media/BeeCodeTeam.png": "/SLIMMOM/static/media/BeeCodeTeam.f28b18aecd29982db7d1.png",
     "static/media/tabletMainBg.png": "/SLIMMOM/static/media/tabletMainBg.6d52e5c9ba4340bdc1b0.png",
     "static/media/leafMd.svg": "/SLIMMOM/static/media/leafMd.837eccf493af18accc7340946f9929c9.svg",
     "static/media/leafLg.svg": "/SLIMMOM/static/media/leafLg.d0f6885ca1718a1057b3970635344059.svg",
@@ -46,7 +45,7 @@
     "static/media/montserrat-vietnamese-400-normal.woff2": "/SLIMMOM/static/media/montserrat-vietnamese-400-normal.176348415471f3e062e6.woff2",
     "index.html": "/SLIMMOM/index.html",
     "main.cc4431b1.css.map": "/SLIMMOM/static/css/main.cc4431b1.css.map",
-    "main.5e3d6cfd.js.map": "/SLIMMOM/static/js/main.5e3d6cfd.js.map",
+    "main.406149b6.js.map": "/SLIMMOM/static/js/main.406149b6.js.map",
     "992.37651a13.chunk.css.map": "/SLIMMOM/static/css/992.37651a13.chunk.css.map",
     "992.38e3b1ee.chunk.js.map": "/SLIMMOM/static/js/992.38e3b1ee.chunk.js.map",
     "534.1eee94f8.chunk.js.map": "/SLIMMOM/static/js/534.1eee94f8.chunk.js.map",
@@ -62,6 +61,6 @@
   },
   "entrypoints": [
     "static/css/main.cc4431b1.css",
-    "static/js/main.5e3d6cfd.js"
+    "static/js/main.406149b6.js"
   ]
 }
