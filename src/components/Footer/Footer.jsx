@@ -33,28 +33,9 @@ const Footer = () => {
 
   return (
     <FooterStyled>
-      <ul>
-        <li>© 2024</li>
-        <li>
-          <p>
-            Made by{' '}
-            <span className="teamname" onClick={toggleTeam}>
-              Iulia Popoaca
-            </span>
-          </p>
-        </li>
-      </ul>
-
       <Team onClick={closeModal} className={teamOpened ? 'opened' : ''}>
         <div className="wrapper">
           <IoMdClose />
-          <a href="https://github.com/IuliaPopoaca">
-            <img
-              src={beeCodeTeam}
-              alt="Iulia Popoaca"
-              href="https://github.com/IuliaPopoaca"
-            />
-          </a>
         </div>
       </Team>
     </FooterStyled>
