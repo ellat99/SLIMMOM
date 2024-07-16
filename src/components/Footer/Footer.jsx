@@ -1,9 +1,15 @@
-import { useEffect } from 'react'; // Importăm doar useEffect din react, deoarece nu mai avem nevoie de useState
-// import { IoMdClose } from 'react-icons/io'; // Importăm doar IoMdClose din react-icons/io
+import { useEffect } from 'react';
+import { IoMdClose } from 'react-icons/io';
 
-import { FooterStyled, Team } from './Footer.styled'; // Importăm FooterStyled și Team din ./Footer.styled
+import { FooterStyled, Team } from './Footer.styled';
 
 const Footer = () => {
+  const closeModal = () => {
+    // Definim funcția closeModal pentru a închide modalul
+    console.log('Closing modal');
+    // Poți adăuga aici logica necesară pentru închiderea modalului
+  };
+
   const handleCloseModal = e => {
     if (e.type === 'keydown' && e.key === 'Escape') {
       closeModal();
@@ -16,16 +22,16 @@ const Footer = () => {
     return () => {
       window.removeEventListener('keydown', handleCloseModal);
     };
-  }, []); // Am eliminat handleCloseModal din array-ul de dependințe, deoarece nu are dependințe externe
-
-  const closeModal = () => {
-    // Funcția closeModal ar trebui să fie definită înainte de a fi folosită
-    // în handleCloseModal pentru a evita erorile
-  };
+  }, [handleCloseModal]); // Adăugăm handleCloseModal în array-ul de dependințe pentru useEffect
 
   return (
     <FooterStyled>
-      <Team onClick={closeModal} className="opened"></Team>
+      <Team onClick={closeModal} className="opened">
+        <div className="wrapper">
+          <IoMdClose />
+          {/* Aici poți adăuga conținutul modalului */}
+        </div>
+      </Team>
     </FooterStyled>
   );
 };
