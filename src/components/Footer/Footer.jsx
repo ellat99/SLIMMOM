@@ -1,5 +1,4 @@
 import { useEffect, useCallback } from 'react';
-import { IoMdClose } from 'react-icons/io';
 
 import { FooterStyled, Team } from './Footer.styled';
 
