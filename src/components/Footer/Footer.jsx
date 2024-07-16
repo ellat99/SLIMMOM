@@ -25,12 +25,7 @@ const Footer = () => {
 
   return (
     <FooterStyled>
-      <Team onClick={closeModal} className="opened">
-        <div className="wrapper">
-          <IoMdClose />
-          {/* Adaugă conținutul modalului aici */}
-        </div>
-      </Team>
+      <Team onClick={closeModal} className="opened"></Team>
     </FooterStyled>
   );
 };
