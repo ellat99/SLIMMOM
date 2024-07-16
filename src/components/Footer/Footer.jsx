@@ -1,16 +1,10 @@
-import { FooterStyled, Team } from './Footer.styled';
-
 import { useEffect, useState } from 'react';
-import { IoMdClose } from 'react-icons/io';
+import { FooterStyled, Team } from './Footer.styled';
 
 const Footer = () => {
   const [teamOpened, setTeamOpened] = useState(false);
 
-  const toggleTeam = () => {
-    setTeamOpened(!teamOpened);
-  };
-
-  const closeModal = e => {
+  const closeModal = () => {
     setTeamOpened(false);
   };
 
@@ -34,7 +28,6 @@ const Footer = () => {
   return (
     <FooterStyled>
       <ul></ul>
-
       <Team onClick={closeModal} className={teamOpened ? 'opened' : ''}></Team>
     </FooterStyled>
   );
