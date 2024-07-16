@@ -33,9 +33,11 @@ const Footer = () => {
 
   return (
     <FooterStyled>
+      <button onClick={toggleTeam}>Toggle Team</button>
       <Team onClick={closeModal} className={teamOpened ? 'opened' : ''}>
         <div className="wrapper">
           <IoMdClose />
+          <img src={beeCodeTeam} alt="Bee Code Team" />
         </div>
       </Team>
     </FooterStyled>
