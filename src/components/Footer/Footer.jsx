@@ -1,30 +1,41 @@
-import { useEffect, useCallback } from 'react';
-
 import { FooterStyled, Team } from './Footer.styled';
 
+import { useEffect, useState } from 'react';
+import { IoMdClose } from 'react-icons/io';
+
 const Footer = () => {
-  const closeModal = useCallback(() => {
-    console.log('Closing modal');
-    // Adaugă logica pentru închiderea modalului aici
-  }, []);
+  const [teamOpened, setTeamOpened] = useState(false);
+
+  const toggleTeam = () => {
+    setTeamOpened(!teamOpened);
+  };
+
+  const closeModal = e => {
+    setTeamOpened(false);
+  };
+
+  const handleCloseModal = e => {
+    if (
+      (e.type === 'click' && e.target === e.currentTarget) ||
+      (e.type === 'keydown' && e.key === 'Escape')
+    ) {
+      closeModal();
+    }
+  };
 
   useEffect(() => {
-    const handleCloseModal = e => {
-      if (e.type === 'keydown' && e.key === 'Escape') {
-        closeModal();
-      }
-    };
-
     window.addEventListener('keydown', handleCloseModal);
 
     return () => {
       window.removeEventListener('keydown', handleCloseModal);
     };
-  }, [closeModal]); // Adăugăm closeModal în lista de dependențe
+  });
 
   return (
     <FooterStyled>
-      <Team onClick={closeModal} className="opened"></Team>
+      <ul></ul>
+
+      <Team onClick={closeModal} className={teamOpened ? 'opened' : ''}></Team>
     </FooterStyled>
   );
 };
