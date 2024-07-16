@@ -1,112 +1,92 @@
-import '@fontsource/ubuntu/400.css';
-import '@fontsource/ubuntu/500.css';
-import '@fontsource/ubuntu/700.css';
 import { useDispatch } from 'react-redux';
-import { lazy, useEffect } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { lazy, Suspense, useEffect } from 'react';
+import { Container } from '@chakra-ui/react';
+import { Outlet, Route, Routes } from 'react-router-dom';
 
-import Layout from 'components/Layout/Layout';
-import { useAuth } from 'hooks';
-import { refresh } from '../redux/auth/operations';
-import { Loader } from './Loader/Loader';
-import PublicRoute from './PublicRoute';
-import PrivateRoute from './PrivateRoute';
-import { ThemeProvider, createTheme } from '@mui/material';
+import authOperations from '../redux/auth/authOperations';
+import Footer from './Footer/Footer';
+import Header from './Header/Header';
+import Loader from './Loader/Loader';
+import PrivateRoute from './PrivateRoute/PrivateRoute';
+import PublicRestrictedRoute from './PublicStrictedRoute/PublicRestrictedRoute';
+import NotFound from '../pages/NotFound/NotFound';
 
-const HomePage = lazy(() => import('../pages/Home'));
-const RegisterPage = lazy(() => import('../pages/Register'));
-const LoginPage = lazy(() => import('../pages/Login'));
-// const UserInfo = lazy(() => import('../pages/UserInfo'));
-const DiaryPage = lazy(() => import('../pages/Diary'));
-const CalculatorPage = lazy(() => import('../pages/Calculator'));
+const DiaryPage = lazy(() => import('pages/DiaryPage/DiaryPage'));
+const LogInPage = lazy(() => import('../pages/LogInPage/LogInPage'));
+const CalculatorPage = lazy(() =>
+  import('../pages/CalculatorPage/CalculatorPage')
+);
+const RegistrationPage = lazy(() =>
+  import('../pages/RegistrationPage/RegistrationPage')
+);
+const HomePage = lazy(() => import('../pages/HomePage/HomePage'));
 
-const theme = createTheme({
-  typography: {
-    button: {
-      fontFamily: 'Ubuntu',
-    },
-    h1: {
-      fontFamily: 'Ubuntu',
-    },
-    h2: {
-      fontFamily: 'Ubuntu',
-    },
-  },
-  palette: {
-    primary: {
-      main: '#1976d2',
-    },
-  },
-  breakpoints: {
-    values: {
-      xs: 300,
-      sm: 600,
-      md: 900,
-      lg: 1200,
-      xl: 1536,
-    },
-  },
-});
+const UiKit = lazy(() => import('./UiKit/UiKit'));
 
 export const App = () => {
   const dispatch = useDispatch();
-  const { isRefreshing } = useAuth();
-
   useEffect(() => {
-    dispatch(refresh());
+    dispatch(authOperations.refresh());
   }, [dispatch]);
 
   return (
-    <ThemeProvider theme={theme}>
-      {isRefreshing ? (
-        <Loader />
-      ) : (
+    <Container
+      maxW={{ sm: '768px', md: '1280px' }}
+      position="relative"
+      pt={{ xs: '80px', lg: '151px' }}
+      px={{ xs: '16px', md: '32px', lg: '16px' }}
+    >
+      <Header />
+      <Suspense fallback={<Loader />}>
         <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<HomePage />} />
+          <Route path="/" element={<Outlet />}>
             <Route
-              path="/register"
+              index
               element={
-                <PublicRoute>
-                  <RegisterPage />
-                </PublicRoute>
+                <PublicRestrictedRoute
+                  redirectTo="/calculator"
+                  children={<HomePage />}
+                />
               }
             />
             <Route
-              path="/login"
+              path="login"
               element={
-                <PublicRoute>
-                  <LoginPage />
-                </PublicRoute>
+                <PublicRestrictedRoute
+                  redirectTo="/calculator"
+                  children={<LogInPage />}
+                />
               }
             />
             <Route
-              path="diary"
+              path="registration"
               element={
-                <PrivateRoute>
-                  <DiaryPage />
-                </PrivateRoute>
+                <PublicRestrictedRoute
+                  redirectTo="/calculator"
+                  children={<RegistrationPage />}
+                />
               }
             />
             <Route
               path="calculator"
               element={
-                <PrivateRoute>
-                  <CalculatorPage />
-                </PrivateRoute>
+                <PrivateRoute redirectTo="/" children={<CalculatorPage />} />
               }
             />
             <Route
-              path="/userinfo"
+              path="diary"
               element={
-                <PrivateRoute>
-                  <CalculatorPage />
-                </PrivateRoute>
+                <PrivateRoute redirectTo="/login" children={<DiaryPage />} />
               }
             />
+            <Route path="uikit" element={<UiKit />} />
           </Route>
+          <Route path="*" element={<NotFound />} />
         </Routes>
-      )}
-    </ThemeProvider>
+      </Suspense>
+      <Footer /> {/* Adaugă componenta Footer aici */}
+    </Container>
   );
 };
+
+export default App;

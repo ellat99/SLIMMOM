@@ -1,30 +1,37 @@
-import { useAuth } from 'hooks';
-import { useDispatch } from 'react-redux';
-import { logout } from '../../redux/auth/operations';
-import css from './UserMenu.module.css';
-import { Link } from '@mui/material';
+import { NavLink } from 'react-router-dom';
+import { Divider, Flex, Link, Text } from '@chakra-ui/react';
+import { useDispatch, useSelector } from 'react-redux';
+import authOperations from '../../redux/auth/authOperations';
+import { authSelectors } from '../../redux/auth/authSelectors';
 
-// import { styled } from '@mui/material/styles';
-
-export const UserMenu = () => {
-  const { user } = useAuth();
+const UserMenu = () => {
   const dispatch = useDispatch();
+  const userName = useSelector(authSelectors.userName);
+
+  const getStyle = ({ isActive }) =>
+    isActive ? { color: '#212121' } : { color: '#9B9FAA' };
 
   return (
-    <div className={css.userWrapper}>
-      <p className={css.user}>{user.name}</p>
+    <Flex alignItems="center" gap="15px">
+      <Text fontFamily="secondary" fontWeight="700">
+        {userName}
+      </Text>
+      <Divider orientation="vertical" h="32px" w="1px" bgColor=" #E0E0E0" />
       <Link
-        component="button"
-        variant="body2"
-        underline="none"
-        fontFamily="verdana"
+        _hover={{ textDecor: 'none' }}
+        fontFamily="secondary"
         fontSize="14px"
+        as={NavLink}
+        to="/"
+        pt="1"
+        onClick={() => dispatch(authOperations.logOut())}
+        style={getStyle}
         fontWeight="700"
-        color="rgba(155, 159, 170, 1)"
-        onClick={() => dispatch(logout())}
       >
-        Exit
+        EXIT
       </Link>
-    </div>
+    </Flex>
   );
 };
+
+export default UserMenu;

@@ -1,83 +1,158 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import {Typography} from '@mui/material';
-import Modal from '@mui/material/Modal';
-import { AiOutlineClose } from "react-icons/ai";
-import css from "./Modal.module.css"
 import { NavLink } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  Box,
+  Divider,
+  Link,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  Text,
+} from '@chakra-ui/react';
 
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  bgcolor: 'background.paper',
-  boxShadow: 24,
-  p: 4,
-  borderRadius: '10px',
-};
+import MainButton from 'components/Button/MainButton';
+import LogoSmall from 'components/Logo/SmallLogo';
 
+import {
+  getDailyRate,
+  getIsLoading,
+  getNotAllowedProducts,
+} from '../../redux/dailyRate/dailyRateSelectors';
 
+import { BottomGradient, List, TopGradient } from './Modal.styled';
+import { useNavigate } from 'react-router-dom/dist';
+import GrayBar from 'components/GrayBar/GrayBar';
+import Loader from 'components/Loader/Loader';
 
-export const ModalCalculator = ({ isOpen, onClose }) => {
-   
+const ModalWindow = ({ overlay, isOpen, onClose }) => {
+  const dailyRate = useSelector(getDailyRate);
+  const isLoading = useSelector(getIsLoading);
+  const notAllowedProducts = useSelector(getNotAllowedProducts);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const handleClick = () => {
+    navigate('/registration');
+    dispatch(getDailyRate(null));
+  };
   return (
-    <div>
+    <>
       <Modal
-        open={isOpen}
+        isOpen={isOpen}
         onClose={onClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
+        isCentered={true}
+        size={{ xs: 'full', md: '2xl' }}
       >
-        <Box sx={{ ...style, width: { xs: 672, sm: 564 }, display:"flex", flexDirection: "column", alignItems: "center", }}>
-        <AiOutlineClose  className={css.closeBtn} onClick={onClose}/>
-        <Typography
-          sx={{
-            mb: 1,
-            fontSize: '26px',
-          }}
-          variant="h2"
-          fontWeight="700"
-          fontFamily="Verdana"
-          color="rgba(33, 33, 33, 1)"
-          maxWidth="508px"
-          maxHeight="70px"
-          marginLeft="3%"
-          marginRight="auto"
-          marginTop="45px"
-          textAlign= "center"
-        >
-          Your recommended daily calorie intake is
-        </Typography>
-        <Typography>{} kcal</Typography>
-        <Button
-              
-            variant="contained"
-            type="submit"
-            color="ochre"
-            sx={{
-              mb: 1,
-              fontFamily: 'Verdana',
-              fontSize: '14px',
-              textTransform: 'unset',
-              borderRadius: '30px',
-              boxShadow: '0px 4px 10px 0px rgba(252, 132, 45, 0.5)',
-              fontWeight: '700',
-              width: '210px',
-              height: '43px',
-              marginTop: '35px',
-              textDecoration: "none",
-            }}
+        {overlay}
+        <ModalContent>
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+            p="20px"
           >
-            <NavLink className={css.buttonLink} to={'/register'}>Start losing weight</NavLink>
-          </Button>
-          
-        </Box>
-         
+            <LogoSmall />
+            <Box display={{ md: 'none' }}>
+              <Link
+                _hover={{ textDecor: 'none' }}
+                fontFamily="-moz-initial"
+                fontSize="14px"
+                as={NavLink}
+                to="/login"
+                mr="16px"
+              >
+                SIGIN IN
+              </Link>
+              <Link
+                _hover={{ textDecor: 'none' }}
+                fontFamily="-moz-initial"
+                fontSize="14px"
+                as={NavLink}
+                to="/registration"
+              >
+                REGISTRATION
+              </Link>
+            </Box>
+          </Box>
+          {isOpen && <GrayBar onClick={onClose} />}
+          <Box maxW="409px" mx="auto">
+            <ModalHeader fontSize="26px" textAlign="center">
+              Your recommended daily calorie intake is
+            </ModalHeader>
+          </Box>
+          <ModalCloseButton size="sm" display={{ xs: 'none', md: 'block' }} />
+          <ModalBody h="100%">
+            <Box minH="279px">
+              {isLoading ? (
+                <Box
+                  display="flex"
+                  justifyContent="center"
+                  alignItems="center"
+                  minH="279px"
+                  w="100%"
+                >
+                  <Loader height={20} width={20} />
+                </Box>
+              ) : (
+                <>
+                  <Box display="flex" justifyContent="center">
+                    <Text
+                      as="b"
+                      fontSize="48px"
+                      display="flex"
+                      alignItems="baseline"
+                      justifyContent="center"
+                      color="#264061"
+                    >
+                      {dailyRate}
+                      <Text fontSize="24px" ml="1">
+                        kcal
+                      </Text>
+                    </Text>
+                  </Box>
+
+                  <Divider w={{ xs: 'none', md: '330px' }} mx="auto" />
+                  <Box
+                    position="relative"
+                    w={{ xs: 'none', md: '330px' }}
+                    mx="auto"
+                    display="flex"
+                    flexDirection="column"
+                    alignItems="start"
+                  >
+                    <Text
+                      as={'h3'}
+                      color="#212121"
+                      textAlign="center"
+                      w="100%"
+                      mt="12px"
+                      mb="20px"
+                    >
+                      Foods you should not eat
+                    </Text>
+                    <TopGradient />
+                    <List display='none'>
+                      {notAllowedProducts.map((item, index) => (
+                        <li key={index}>
+                          {index + 1}. {item}
+                        </li>
+                      ))}
+                    </List>
+                    <BottomGradient />
+                  </Box>
+                </>
+              )}
+            </Box>
+          </ModalBody>
+          <ModalFooter display="flex" justifyContent="center" mb="81px">
+            <MainButton text="Start losing weight" onClick={handleClick} />
+          </ModalFooter>
+        </ModalContent>
       </Modal>
-    </div>
+    </>
   );
 };
 
- 
+export default ModalWindow;

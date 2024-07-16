@@ -1,41 +1,35 @@
-import { Box, Link, Typography } from '@mui/material';
+import { FooterStyled, Team } from './Footer.styled';
+import beeCodeTeam from 'images/Team/BeeCodeTeam.png';
+import { useEffect, useState } from 'react';
+import { IoMdClose } from 'react-icons/io';
 
-function Copyright(props) {
-  return (
-    <Box color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Typography variant="body2" color="text.secondary">
-        Developed at GoIT by{' '}
-        <Link
-          color="inherit"
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://github.com/AndreeaSichitiu"
-        >
-          Sichitiu Andreea
-        </Link>{' '}
-        {new Date().getFullYear()}
-        {'.'}
-      </Typography>
-    </Box>
-  );
-}
+const Footer = () => {
+  const [teamOpened, setTeamOpened] = useState(false);
 
-export const Footer = () => {
-  return (
-    <Box component="footer">
-      <Box
-        sx={{
-          // marginTop: 2,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          bgcolor: 'transparent',
-          marginTop: '100px',
-        }}
-      >
-        <Copyright sx={{ my: 1.5 }} />
-      </Box>
-    </Box>
-  );
+  const toggleTeam = () => {
+    setTeamOpened(!teamOpened);
+  };
+
+  const closeModal = e => {
+    setTeamOpened(false);
+  };
+
+  const handleCloseModal = e => {
+    if (
+      (e.type === 'click' && e.target === e.currentTarget) ||
+      (e.type === 'keydown' && e.key === 'Escape')
+    ) {
+      closeModal();
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleCloseModal);
+
+    return () => {
+      window.removeEventListener('keydown', handleCloseModal);
+    };
+  });
 };
+
+export default Footer;

@@ -1,25 +1,21 @@
 import React from 'react';
-import { ThreeCircles } from 'react-loader-spinner';
-import css from './Loader.module.css';
+import { Flex } from '@chakra-ui/react';
+import { Spinner } from '@chakra-ui/react';
 
-export function Loader() {
+export default function Loader({
+  height = '100px',
+  width = '100px',
+  ...otherProps
+}) {
   return (
-    <div className={css.loaderWrapper}>
-      <div className={css.mainLoader}>
-        <ThreeCircles
-          color={'#FC842D'}
-          arialLabel="loading-indicator"
-          height="120"
-          width="120"
-          wrapperStyle={{}}
-          wrapperClass=""
-          visible={true}
-          ariaLabel="three-circles-rotating"
-          outerCircleColor=""
-          innerCircleColor=""
-          middleCircleColor=""
-        />
-      </div>
-    </div>
+    <Flex justifyContent="center" marginTop="80px">
+      <Spinner
+        height={height}
+        width={width}
+        color="#FC842D"
+        aria-label="loading"
+        {...otherProps}
+      />
+    </Flex>
   );
 }

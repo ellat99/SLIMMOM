@@ -1,79 +1,124 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { login, logout, refresh, register } from './operations';
-
-const handleRejected = (state, action) => {
-  state.isAuthLoading = false;
-  state.authError = action.payload;
-};
+import authOperations from './authOperations';
+import storage from 'redux-persist/lib/storage';
+import { persistReducer } from 'redux-persist';
 
 const initialState = {
-  user: { name: null, email: null },
-  token: null,
+  user: { username: null, email: null, id: null },
+  accessToken: null,
+  refreshToken: null,
+  sid: null,
   isLoggedIn: false,
-  isRefreshing: false,
-
-  isAuthLoading: false,
-  authError: null,
+  loading: {
+    register: false,
+    logIn: false,
+    registration: false,
+    refresh: false,
+  },
 };
 
-const authSlice = createSlice({
+export const authSlice = createSlice({
   name: 'auth',
   initialState,
   extraReducers: builder => {
     builder
-      .addCase(register.pending, state => {
-        state.isAuthLoading = 'register';
+      .addCase(authOperations.register.pending, state => {
+        state.loading.registration = true;
       })
-      .addCase(register.fulfilled, (state, { payload }) => {
-        state.user = payload.user;
-        state.token = payload.token;
-        state.isLoggedIn = true;
-        state.isAuthLoading = false;
-        state.authError = null;
+      .addCase(authOperations.register.rejected, state => {
+        state.loading.registration = false;
       })
-      .addCase(register.rejected, handleRejected)
+      .addCase(authOperations.register.fulfilled, (state, { payload }) => {
+        state.user.username = payload['user']['username'];
+        state.user.email = payload['user']['email'];
+        state.user.id = payload['user']['id'];
 
-      .addCase(login.pending, state => {
-        state.isAuthLoading = 'login';
-      })
-      .addCase(login.fulfilled, (state, { payload }) => {
-        state.user = payload.user;
-        state.token = payload.token;
-        state.isLoggedIn = true;
-        state.isAuthLoading = false;
-        state.authError = null;
-      })
-      .addCase(login.rejected, handleRejected)
+        state.accessToken = payload['accessToken'];
+        state.refreshToken = payload['refreshToken'];
+        state.sid = payload['sid'];
 
-      .addCase(logout.pending, state => {
-        state.isAuthLoading = 'logout';
-      })
-      .addCase(logout.fulfilled, state => {
-        state.user = { name: null, email: null };
-        state.token = null;
-        state.isLoggedIn = false;
-        state.isAuthLoading = false;
-        state.authError = null;
-      })
-      .addCase(logout.rejected, handleRejected)
-
-      .addCase(refresh.pending, state => {
-        state.isRefreshing = true;
-        state.isAuthLoading = 'refresh';
-      })
-      .addCase(refresh.fulfilled, (state, { payload }) => {
-        state.user = payload;
         state.isLoggedIn = true;
-        state.isRefreshing = false;
-        state.isAuthLoading = false;
-        state.authError = null;
+        state.loading.registration = false;
       })
-      .addCase(refresh.rejected, (state, { payload }) => {
-        state.isRefreshing = false;
-        state.isAuthLoading = false;
-        // state.authError = payload;
+
+      .addCase(authOperations.logIn.pending, state => {
+        state.loading.logIn = true;
+      })
+      .addCase(authOperations.logIn.fulfilled, (state, { payload }) => {
+        state.user.username = payload['user']['username'];
+        state.user.email = payload['user']['email'];
+        state.user.id = payload['user']['id'];
+
+        state.accessToken = payload['accessToken'];
+        state.refreshToken = payload['refreshToken'];
+        state.sid = payload['sid'];
+
+        state.isLoggedIn = true;
+        state.loading.logIn = false;
+      })
+      .addCase(authOperations.logIn.rejected, state => {
+        state.loading.logIn = false;
+      })
+
+      .addCase(authOperations.logOut.pending, state => {
+        state.loading.logOut = true;
+      })
+      .addCase(authOperations.logOut.fulfilled, state => {
+        state.user.username = initialState.user.username;
+        state.user.email = initialState.user.email;
+        state.user.id = initialState.user.id;
+
+        state.accessToken = initialState.accessToken;
+        state.refreshToken = initialState.refreshToken;
+        state.sid = initialState.sid;
+
+        state.isLoggedIn = initialState.isLoggedIn;
+        state.loading.logOut = false;
+      })
+      .addCase(authOperations.logOut.rejected, state => {
+        state.loading.logOut = false;
+      })
+
+      .addCase(authOperations.refresh.pending, state => {
+        state.loading.refresh = true;
+        state.accessToken = null;
+      })
+      .addCase(authOperations.refresh.fulfilled, (state, { payload }) => {
+        state.accessToken = payload.refreshData['newAccessToken'];
+        state.refreshToken = payload.refreshData['newRefreshToken'];
+        state.sid = payload.refreshData['sid'];
+
+        state.user.username = payload.userData['username'];
+        state.user.email = payload.userData['email'];
+        state.user.id = payload.userData['id'];
+
+        state.isLoggedIn = true;
+        state.isFetchingCurrentUser = false;
+        state.loading.refresh = false;
+      })
+      .addCase(authOperations.refresh.rejected, state => {
+        state.accessToken = initialState.accessToken;
+        state.refreshToken = initialState.refreshToken;
+        state.sid = initialState.sid;
+
+        state.user.username = initialState.user.username;
+        state.user.email = initialState.user.email;
+        state.user.id = initialState.user.id;
+
+        state.isLoggedIn = initialState.isLoggedIn;
+        state.loading.refresh = false;
       });
   },
 });
 
-export const authReducer = authSlice.reducer;
+const persistConfig = {
+  key: 'watermelon/slimMom',
+  storage,
+  // whitelist: ['token'],
+  blacklist: ['loading'],
+};
+
+export const persistedAuthReducer = persistReducer(
+  persistConfig,
+  authSlice.reducer
+);
