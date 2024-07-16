@@ -1,16 +1,12 @@
 import { FooterStyled, Team } from './Footer.styled';
-import beeCodeTeam from 'images/Team/BeeCodeTeam.png';
+
 import { useEffect, useState } from 'react';
 import { IoMdClose } from 'react-icons/io';
 
 const Footer = () => {
-  const [teamOpened, setTeamOpened] = useState(false);
+  const [teamOpened, setTeamOpened] = useState(true); // Setăm inițial teamOpened pe true pentru a afișa poza la încărcarea componentei
 
-  const toggleTeam = () => {
-    setTeamOpened(!teamOpened);
-  };
-
-  const closeModal = e => {
+  const closeModal = () => {
     setTeamOpened(false);
   };
 
@@ -29,19 +25,7 @@ const Footer = () => {
     return () => {
       window.removeEventListener('keydown', handleCloseModal);
     };
-  });
-
-  return (
-    <FooterStyled>
-      <button onClick={toggleTeam}>Toggle Team</button>
-      <Team onClick={closeModal} className={teamOpened ? 'opened' : ''}>
-        <div className="wrapper">
-          <IoMdClose />
-          <img src={beeCodeTeam} alt="Bee Code Team" />
-        </div>
-      </Team>
-    </FooterStyled>
-  );
+  }, []);
 };
 
 export default Footer;
